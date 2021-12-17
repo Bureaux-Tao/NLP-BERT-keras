@@ -1,0 +1,714 @@
+ssh://bureaux@172.30.2.148:22/home/bureaux/miniconda3/envs/Keras-base/bin/python -u /home/bureaux/Projects/keras4bert/NER/train.py
+Using TensorFlow backend.
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:517: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:4185: The name tf.truncated_normal is deprecated. Please use tf.random.truncated_normal instead.
+
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:74: The name tf.get_default_graph is deprecated. Please use tf.compat.v1.get_default_graph instead.
+
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:174: The name tf.get_default_session is deprecated. Please use tf.compat.v1.get_default_session instead.
+
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:181: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:3445: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:2974: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to
+==================================================================================================
+Input-Token (InputLayer)        (None, None)         0
+__________________________________________________________________________________________________
+Input-Segment (InputLayer)      (None, None)         0
+__________________________________________________________________________________________________
+Embedding-Token (Embedding)     (None, None, 768)    16226304    Input-Token[0][0]
+__________________________________________________________________________________________________
+Embedding-Segment (Embedding)   (None, None, 768)    1536        Input-Segment[0][0]
+__________________________________________________________________________________________________
+Embedding-Token-Segment (Add)   (None, None, 768)    0           Embedding-Token[0][0]
+                                                                 Embedding-Segment[0][0]
+__________________________________________________________________________________________________
+Embedding-Position (PositionEmb (None, None, 768)    393216      Embedding-Token-Segment[0][0]
+__________________________________________________________________________________________________
+Embedding-Norm (LayerNormalizat (None, None, 768)    1536        Embedding-Position[0][0]
+__________________________________________________________________________________________________
+Transformer-MultiHeadSelfAttent (None, None, 768)    2362368     Embedding-Norm[0][0]
+                                                                 Embedding-Norm[0][0]
+                                                                 Embedding-Norm[0][0]
+                                                                 Transformer-FeedForward-Norm[0][0
+                                                                 Transformer-FeedForward-Norm[0][0
+                                                                 Transformer-FeedForward-Norm[0][0
+                                                                 Transformer-FeedForward-Norm[1][0
+                                                                 Transformer-FeedForward-Norm[1][0
+                                                                 Transformer-FeedForward-Norm[1][0
+                                                                 Transformer-FeedForward-Norm[2][0
+                                                                 Transformer-FeedForward-Norm[2][0
+                                                                 Transformer-FeedForward-Norm[2][0
+                                                                 Transformer-FeedForward-Norm[3][0
+                                                                 Transformer-FeedForward-Norm[3][0
+                                                                 Transformer-FeedForward-Norm[3][0
+                                                                 Transformer-FeedForward-Norm[4][0
+                                                                 Transformer-FeedForward-Norm[4][0
+                                                                 Transformer-FeedForward-Norm[4][0
+                                                                 Transformer-FeedForward-Norm[5][0
+                                                                 Transformer-FeedForward-Norm[5][0
+                                                                 Transformer-FeedForward-Norm[5][0
+                                                                 Transformer-FeedForward-Norm[6][0
+                                                                 Transformer-FeedForward-Norm[6][0
+                                                                 Transformer-FeedForward-Norm[6][0
+                                                                 Transformer-FeedForward-Norm[7][0
+                                                                 Transformer-FeedForward-Norm[7][0
+                                                                 Transformer-FeedForward-Norm[7][0
+                                                                 Transformer-FeedForward-Norm[8][0
+                                                                 Transformer-FeedForward-Norm[8][0
+                                                                 Transformer-FeedForward-Norm[8][0
+                                                                 Transformer-FeedForward-Norm[9][0
+                                                                 Transformer-FeedForward-Norm[9][0
+                                                                 Transformer-FeedForward-Norm[9][0
+                                                                 Transformer-FeedForward-Norm[10][
+                                                                 Transformer-FeedForward-Norm[10][
+                                                                 Transformer-FeedForward-Norm[10][
+__________________________________________________________________________________________________
+Transformer-MultiHeadSelfAttent (None, None, 768)    0           Embedding-Norm[0][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[0][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[1][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[2][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[3][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[4][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[5][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[6][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[7][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[8][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[9][0
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward-Norm[10][
+                                                                 Transformer-MultiHeadSelfAttentio
+__________________________________________________________________________________________________
+Transformer-MultiHeadSelfAttent (None, None, 768)    1536        Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+__________________________________________________________________________________________________
+Transformer-FeedForward (FeedFo (None, None, 768)    4722432     Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-MultiHeadSelfAttentio
+__________________________________________________________________________________________________
+Transformer-FeedForward-Add (Ad (None, None, 768)    0           Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[0][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[1][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[2][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[3][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[4][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[5][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[6][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[7][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[8][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[9][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[10][0]
+                                                                 Transformer-MultiHeadSelfAttentio
+                                                                 Transformer-FeedForward[11][0]
+__________________________________________________________________________________________________
+Transformer-FeedForward-Norm (L (None, None, 768)    1536        Transformer-FeedForward-Add[0][0]
+                                                                 Transformer-FeedForward-Add[1][0]
+                                                                 Transformer-FeedForward-Add[2][0]
+                                                                 Transformer-FeedForward-Add[3][0]
+                                                                 Transformer-FeedForward-Add[4][0]
+                                                                 Transformer-FeedForward-Add[5][0]
+                                                                 Transformer-FeedForward-Add[6][0]
+                                                                 Transformer-FeedForward-Add[7][0]
+                                                                 Transformer-FeedForward-Add[8][0]
+                                                                 Transformer-FeedForward-Add[9][0]
+                                                                 Transformer-FeedForward-Add[10][0
+                                                                 Transformer-FeedForward-Add[11][0
+__________________________________________________________________________________________________
+bidirectional_1 (Bidirectional) (None, None, 128)    426496      Transformer-FeedForward-Norm[11][
+__________________________________________________________________________________________________
+time_distributed_1 (TimeDistrib (None, None, 29)     3741        bidirectional_1[0][0]
+__________________________________________________________________________________________________
+conditional_random_field_1 (Con (None, None, 29)     841         time_distributed_1[0][0]
+==================================================================================================
+Total params: 24,141,542
+Trainable params: 24,141,542
+Non-trainable params: 0
+__________________________________________________________________________________________________
+WARNING:tensorflow:From /home/bureaux/miniconda3/envs/Keras-base/lib/python3.6/site-packages/keras/optimizers.py:790: The name tf.train.Optimizer is deprecated. Please use tf.compat.v1.train.Optimizer instead.
+
+Epoch 1/300
+13/13 [==============================] - 26s 2s/step - loss: 31.0771 - sparse_accuracy: 0.6002
+test:  f1: 0.58326, precision: 0.60068, recall: 0.56683
+
+Epoch 00001: loss improved from inf to 31.75811, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 2/300
+13/13 [==============================] - 16s 1s/step - loss: 8.3967 - sparse_accuracy: 0.8014
+test:  f1: 0.70213, precision: 0.71381, recall: 0.69082
+
+Epoch 00002: loss improved from 31.75811 to 8.42355, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 3/300
+13/13 [==============================] - 15s 1s/step - loss: 4.9657 - sparse_accuracy: 0.8381
+test:  f1: 0.74165, precision: 0.75083, recall: 0.73269
+
+Epoch 00003: loss improved from 8.42355 to 5.01711, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 4/300
+13/13 [==============================] - 16s 1s/step - loss: 3.4723 - sparse_accuracy: 0.8620
+test:  f1: 0.78275, precision: 0.77655, recall: 0.78905
+
+Epoch 00004: loss improved from 5.01711 to 3.47356, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 5/300
+13/13 [==============================] - 16s 1s/step - loss: 2.5906 - sparse_accuracy: 0.8773
+test:  f1: 0.77916, precision: 0.80102, recall: 0.75845
+
+Epoch 00005: loss improved from 3.47356 to 2.60063, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 6/300
+13/13 [==============================] - 15s 1s/step - loss: 2.1911 - sparse_accuracy: 0.8857
+test:  f1: 0.79616, precision: 0.79048, recall: 0.80193
+
+Epoch 00006: loss improved from 2.60063 to 2.21294, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 7/300
+13/13 [==============================] - 16s 1s/step - loss: 1.9073 - sparse_accuracy: 0.8912
+test:  f1: 0.82183, precision: 0.81920, recall: 0.82448
+
+Epoch 00007: loss improved from 2.21294 to 1.93279, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 8/300
+13/13 [==============================] - 16s 1s/step - loss: 1.8652 - sparse_accuracy: 0.8903
+test:  f1: 0.81547, precision: 0.81613, recall: 0.81481
+
+Epoch 00008: loss improved from 1.93279 to 1.85841, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 9/300
+13/13 [==============================] - 16s 1s/step - loss: 1.5666 - sparse_accuracy: 0.8962
+test:  f1: 0.80994, precision: 0.80671, recall: 0.81320
+
+Epoch 00009: loss improved from 1.85841 to 1.54130, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 10/300
+13/13 [==============================] - 16s 1s/step - loss: 1.3581 - sparse_accuracy: 0.9010
+test:  f1: 0.78450, precision: 0.78641, recall: 0.78261
+
+Epoch 00010: loss improved from 1.54130 to 1.35416, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 11/300
+13/13 [==============================] - 16s 1s/step - loss: 1.2748 - sparse_accuracy: 0.9066
+test:  f1: 0.79775, precision: 0.79520, recall: 0.80032
+
+Epoch 00011: loss improved from 1.35416 to 1.26942, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 12/300
+13/13 [==============================] - 17s 1s/step - loss: 1.1107 - sparse_accuracy: 0.9113
+test:  f1: 0.79456, precision: 0.78889, recall: 0.80032
+
+Epoch 00012: loss improved from 1.26942 to 1.09731, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 13/300
+13/13 [==============================] - 16s 1s/step - loss: 1.2530 - sparse_accuracy: 0.9019
+test:  f1: 0.75566, precision: 0.75935, recall: 0.75201
+
+Epoch 00013: loss did not improve from 1.09731
+Epoch 14/300
+13/13 [==============================] - 17s 1s/step - loss: 1.5061 - sparse_accuracy: 0.9038
+test:  f1: 0.78696, precision: 0.77708, recall: 0.79710
+
+Epoch 00014: loss did not improve from 1.09731
+Epoch 15/300
+13/13 [==============================] - 16s 1s/step - loss: 1.2290 - sparse_accuracy: 0.9033
+test:  f1: 0.77903, precision: 0.78029, recall: 0.77778
+
+Epoch 00015: ReduceLROnPlateau reducing learning rate to 9.999999747378752e-05.
+
+Epoch 00015: loss did not improve from 1.09731
+Epoch 16/300
+13/13 [==============================] - 17s 1s/step - loss: 0.9404 - sparse_accuracy: 0.9191
+test:  f1: 0.80735, precision: 0.80159, recall: 0.81320
+
+Epoch 00016: loss improved from 1.09731 to 0.93067, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 17/300
+13/13 [==============================] - 16s 1s/step - loss: 0.6478 - sparse_accuracy: 0.9293
+test:  f1: 0.79200, precision: 0.78696, recall: 0.79710
+
+Epoch 00017: loss improved from 0.93067 to 0.65049, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 18/300
+13/13 [==============================] - 16s 1s/step - loss: 0.4865 - sparse_accuracy: 0.9373
+test:  f1: 0.80735, precision: 0.80159, recall: 0.81320
+
+Epoch 00018: loss improved from 0.65049 to 0.48845, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 19/300
+13/13 [==============================] - 17s 1s/step - loss: 0.3894 - sparse_accuracy: 0.9460
+test:  f1: 0.80831, precision: 0.80190, recall: 0.81481
+
+Epoch 00019: loss improved from 0.48845 to 0.38658, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 20/300
+13/13 [==============================] - 16s 1s/step - loss: 0.3298 - sparse_accuracy: 0.9513
+test:  f1: 0.81369, precision: 0.80472, recall: 0.82287
+
+Epoch 00020: loss improved from 0.38658 to 0.33180, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 21/300
+13/13 [==============================] - 17s 1s/step - loss: 0.3033 - sparse_accuracy: 0.9525
+test:  f1: 0.80831, precision: 0.80190, recall: 0.81481
+
+Epoch 00021: loss improved from 0.33180 to 0.30235, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 22/300
+13/13 [==============================] - 17s 1s/step - loss: 0.2652 - sparse_accuracy: 0.9537
+test:  f1: 0.80542, precision: 0.79779, recall: 0.81320
+
+Epoch 00022: loss improved from 0.30235 to 0.26690, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 23/300
+13/13 [==============================] - 16s 1s/step - loss: 0.2547 - sparse_accuracy: 0.9562
+test:  f1: 0.81375, precision: 0.80794, recall: 0.81965
+
+Epoch 00023: loss improved from 0.26690 to 0.25729, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 24/300
+13/13 [==============================] - 16s 1s/step - loss: 0.2449 - sparse_accuracy: 0.9583
+test:  f1: 0.80544, precision: 0.80096, recall: 0.80998
+
+Epoch 00024: loss improved from 0.25729 to 0.24088, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 25/300
+13/13 [==============================] - 17s 1s/step - loss: 0.2314 - sparse_accuracy: 0.9592
+test:  f1: 0.80351, precision: 0.79715, recall: 0.80998
+
+Epoch 00025: loss improved from 0.24088 to 0.23455, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 26/300
+13/13 [==============================] - 16s 1s/step - loss: 0.2265 - sparse_accuracy: 0.9614
+test:  f1: 0.81240, precision: 0.80220, recall: 0.82287
+
+Epoch 00026: loss improved from 0.23455 to 0.22489, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 27/300
+13/13 [==============================] - 18s 1s/step - loss: 0.2094 - sparse_accuracy: 0.9622
+test:  f1: 0.81440, precision: 0.80922, recall: 0.81965
+
+Epoch 00027: loss improved from 0.22489 to 0.21012, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 28/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1954 - sparse_accuracy: 0.9624
+test:  f1: 0.81280, precision: 0.80763, recall: 0.81804
+
+Epoch 00028: loss improved from 0.21012 to 0.19811, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 29/300
+13/13 [==============================] - 18s 1s/step - loss: 0.1927 - sparse_accuracy: 0.9622
+test:  f1: 0.81120, precision: 0.80604, recall: 0.81643
+
+Epoch 00029: loss improved from 0.19811 to 0.19398, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 30/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1964 - sparse_accuracy: 0.9626
+test:  f1: 0.81150, precision: 0.80507, recall: 0.81804
+
+Epoch 00030: loss did not improve from 0.19398
+Epoch 31/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1857 - sparse_accuracy: 0.9645
+test:  f1: 0.80609, precision: 0.80223, recall: 0.80998
+
+Epoch 00031: loss improved from 0.19398 to 0.18908, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 32/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1955 - sparse_accuracy: 0.9648
+test:  f1: 0.81470, precision: 0.80824, recall: 0.82126
+
+Epoch 00032: loss did not improve from 0.18908
+Epoch 33/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1894 - sparse_accuracy: 0.9646
+test:  f1: 0.81789, precision: 0.81141, recall: 0.82448
+
+Epoch 00033: loss did not improve from 0.18908
+Epoch 34/300
+13/13 [==============================] - 15s 1s/step - loss: 0.1810 - sparse_accuracy: 0.9659
+test:  f1: 0.82240, precision: 0.81717, recall: 0.82770
+
+Epoch 00034: loss improved from 0.18908 to 0.18286, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 35/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1829 - sparse_accuracy: 0.9652
+test:  f1: 0.81535, precision: 0.80952, recall: 0.82126
+
+Epoch 00035: loss did not improve from 0.18286
+Epoch 36/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1693 - sparse_accuracy: 0.9662
+test:  f1: 0.81440, precision: 0.80922, recall: 0.81965
+
+Epoch 00036: loss improved from 0.18286 to 0.17028, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 37/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1749 - sparse_accuracy: 0.9671
+test:  f1: 0.82014, precision: 0.81429, recall: 0.82609
+
+Epoch 00037: loss did not improve from 0.17028
+Epoch 38/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1767 - sparse_accuracy: 0.9675
+test:  f1: 0.81760, precision: 0.81240, recall: 0.82287
+
+Epoch 00038: loss did not improve from 0.17028
+Epoch 39/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1865 - sparse_accuracy: 0.9665
+test:  f1: 0.81280, precision: 0.80763, recall: 0.81804
+
+Epoch 00039: ReduceLROnPlateau reducing learning rate to 4.999999873689376e-05.
+
+Epoch 00039: loss did not improve from 0.17028
+Epoch 40/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1532 - sparse_accuracy: 0.9684
+test:  f1: 0.81789, precision: 0.81141, recall: 0.82448
+
+Epoch 00040: loss improved from 0.17028 to 0.15107, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 41/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1454 - sparse_accuracy: 0.9690
+test:  f1: 0.81375, precision: 0.80794, recall: 0.81965
+
+Epoch 00041: loss improved from 0.15107 to 0.14842, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 42/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1462 - sparse_accuracy: 0.9685
+test:  f1: 0.81949, precision: 0.81300, recall: 0.82609
+
+Epoch 00042: loss improved from 0.14842 to 0.14681, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 43/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1501 - sparse_accuracy: 0.9684
+test:  f1: 0.82137, precision: 0.81359, recall: 0.82931
+
+Epoch 00043: loss did not improve from 0.14681
+Epoch 44/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1459 - sparse_accuracy: 0.9690
+test:  f1: 0.81883, precision: 0.81171, recall: 0.82609
+
+Epoch 00044: loss improved from 0.14681 to 0.14645, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 45/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1453 - sparse_accuracy: 0.9695
+test:  f1: 0.82080, precision: 0.81558, recall: 0.82609
+
+Epoch 00045: loss did not improve from 0.14645
+Epoch 46/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1444 - sparse_accuracy: 0.9697
+test:  f1: 0.82080, precision: 0.81558, recall: 0.82609
+
+Epoch 00046: loss did not improve from 0.14645
+Epoch 47/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1502 - sparse_accuracy: 0.9702
+test:  f1: 0.81405, precision: 0.80696, recall: 0.82126
+
+Epoch 00047: ReduceLROnPlateau reducing learning rate to 2.499999936844688e-05.
+
+Epoch 00047: loss did not improve from 0.14645
+Epoch 48/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1379 - sparse_accuracy: 0.9700
+test:  f1: 0.81978, precision: 0.81201, recall: 0.82770
+
+Epoch 00048: loss improved from 0.14645 to 0.14013, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 49/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1361 - sparse_accuracy: 0.9702
+test:  f1: 0.81855, precision: 0.81270, recall: 0.82448
+
+Epoch 00049: loss improved from 0.14013 to 0.13686, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 50/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1342 - sparse_accuracy: 0.9702
+test:  f1: 0.82268, precision: 0.81616, recall: 0.82931
+
+Epoch 00050: loss improved from 0.13686 to 0.13520, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 51/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1355 - sparse_accuracy: 0.9711
+test:  f1: 0.82268, precision: 0.81616, recall: 0.82931
+
+Epoch 00051: loss did not improve from 0.13520
+Epoch 52/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1419 - sparse_accuracy: 0.9708
+test:  f1: 0.81855, precision: 0.81270, recall: 0.82448
+
+Epoch 00052: loss did not improve from 0.13520
+Epoch 53/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1411 - sparse_accuracy: 0.9709
+test:  f1: 0.82174, precision: 0.81587, recall: 0.82770
+
+Epoch 00053: ReduceLROnPlateau reducing learning rate to 1.249999968422344e-05.
+
+Epoch 00053: loss did not improve from 0.13520
+Epoch 54/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1360 - sparse_accuracy: 0.9709
+test:  f1: 0.82268, precision: 0.81616, recall: 0.82931
+
+Epoch 00054: loss improved from 0.13520 to 0.13333, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 55/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1327 - sparse_accuracy: 0.9712
+test:  f1: 0.82174, precision: 0.81587, recall: 0.82770
+
+Epoch 00055: loss did not improve from 0.13333
+Epoch 56/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1309 - sparse_accuracy: 0.9711
+test:  f1: 0.82174, precision: 0.81587, recall: 0.82770
+
+Epoch 00056: loss improved from 0.13333 to 0.13125, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 57/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1350 - sparse_accuracy: 0.9713
+test:  f1: 0.82174, precision: 0.81587, recall: 0.82770
+
+Epoch 00057: loss did not improve from 0.13125
+Epoch 58/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1326 - sparse_accuracy: 0.9709
+test:  f1: 0.82428, precision: 0.81775, recall: 0.83092
+
+Epoch 00058: loss did not improve from 0.13125
+Epoch 59/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1316 - sparse_accuracy: 0.9715
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00059: ReduceLROnPlateau reducing learning rate to 6.24999984211172e-06.
+
+Epoch 00059: loss did not improve from 0.13125
+Epoch 60/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1317 - sparse_accuracy: 0.9720
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00060: loss improved from 0.13125 to 0.13044, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 61/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1343 - sparse_accuracy: 0.9713
+test:  f1: 0.82428, precision: 0.81775, recall: 0.83092
+
+Epoch 00061: loss did not improve from 0.13044
+Epoch 62/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1318 - sparse_accuracy: 0.9714
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00062: loss did not improve from 0.13044
+Epoch 63/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1307 - sparse_accuracy: 0.9718
+test:  f1: 0.82362, precision: 0.81646, recall: 0.83092
+
+Epoch 00063: ReduceLROnPlateau reducing learning rate to 3.12499992105586e-06.
+
+Epoch 00063: loss improved from 0.13044 to 0.13035, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 64/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1283 - sparse_accuracy: 0.9718
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00064: loss improved from 0.13035 to 0.13034, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 65/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1313 - sparse_accuracy: 0.9714
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00065: loss improved from 0.13034 to 0.12998, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 66/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1296 - sparse_accuracy: 0.9715
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00066: loss improved from 0.12998 to 0.12885, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 67/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1282 - sparse_accuracy: 0.9721
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00067: loss improved from 0.12885 to 0.12837, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 68/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1322 - sparse_accuracy: 0.9716
+test:  f1: 0.82428, precision: 0.81775, recall: 0.83092
+
+Epoch 00068: loss did not improve from 0.12837
+Epoch 69/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1264 - sparse_accuracy: 0.9716
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00069: loss did not improve from 0.12837
+Epoch 70/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1313 - sparse_accuracy: 0.9719
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00070: ReduceLROnPlateau reducing learning rate to 1.56249996052793e-06.
+
+Epoch 00070: loss did not improve from 0.12837
+Epoch 71/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1276 - sparse_accuracy: 0.9717
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00071: loss did not improve from 0.12837
+Epoch 72/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1270 - sparse_accuracy: 0.9715
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00072: loss improved from 0.12837 to 0.12800, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 73/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1322 - sparse_accuracy: 0.9708
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00073: loss did not improve from 0.12800
+Epoch 74/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1272 - sparse_accuracy: 0.9711
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00074: loss did not improve from 0.12800
+Epoch 75/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1263 - sparse_accuracy: 0.9719
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00075: ReduceLROnPlateau reducing learning rate to 7.81249980263965e-07.
+
+Epoch 00075: loss did not improve from 0.12800
+Epoch 76/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1280 - sparse_accuracy: 0.9720
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00076: loss did not improve from 0.12800
+Epoch 77/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1278 - sparse_accuracy: 0.9714
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00077: loss improved from 0.12800 to 0.12735, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 78/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1281 - sparse_accuracy: 0.9714
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00078: loss did not improve from 0.12735
+Epoch 79/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1276 - sparse_accuracy: 0.9718
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00079: loss did not improve from 0.12735
+Epoch 80/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1283 - sparse_accuracy: 0.9714
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00080: ReduceLROnPlateau reducing learning rate to 3.906249901319825e-07.
+
+Epoch 00080: loss did not improve from 0.12735
+Epoch 81/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1271 - sparse_accuracy: 0.9716
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00081: loss did not improve from 0.12735
+Epoch 82/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1292 - sparse_accuracy: 0.9717
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00082: loss did not improve from 0.12735
+Epoch 83/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1278 - sparse_accuracy: 0.9717
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00083: ReduceLROnPlateau reducing learning rate to 1.9531249506599124e-07.
+
+Epoch 00083: loss did not improve from 0.12735
+Epoch 84/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1315 - sparse_accuracy: 0.9715
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00084: loss did not improve from 0.12735
+Epoch 85/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1281 - sparse_accuracy: 0.9715
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00085: loss did not improve from 0.12735
+Epoch 86/300
+13/13 [==============================] - 15s 1s/step - loss: 0.1260 - sparse_accuracy: 0.9713
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00086: ReduceLROnPlateau reducing learning rate to 9.765624753299562e-08.
+
+Epoch 00086: loss did not improve from 0.12735
+Epoch 87/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1262 - sparse_accuracy: 0.9716
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00087: loss improved from 0.12735 to 0.12708, saving model to /home/bureaux/Projects/keras4bert/weights/pulmonary_albert_ner.h5
+Epoch 88/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1265 - sparse_accuracy: 0.9712
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00088: loss did not improve from 0.12708
+Epoch 89/300
+13/13 [==============================] - 17s 1s/step - loss: 0.1292 - sparse_accuracy: 0.9715
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00089: loss did not improve from 0.12708
+Epoch 90/300
+13/13 [==============================] - 15s 1s/step - loss: 0.1299 - sparse_accuracy: 0.9719
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00090: ReduceLROnPlateau reducing learning rate to 4.882812376649781e-08.
+
+Epoch 00090: loss did not improve from 0.12708
+Epoch 91/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1293 - sparse_accuracy: 0.9715
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00091: loss did not improve from 0.12708
+Epoch 92/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1275 - sparse_accuracy: 0.9717
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00092: loss did not improve from 0.12708
+Epoch 93/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1266 - sparse_accuracy: 0.9720
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00093: ReduceLROnPlateau reducing learning rate to 2.4414061883248905e-08.
+
+Epoch 00093: loss did not improve from 0.12708
+Epoch 94/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1309 - sparse_accuracy: 0.9713
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00094: loss did not improve from 0.12708
+Epoch 95/300
+13/13 [==============================] - 15s 1s/step - loss: 0.1293 - sparse_accuracy: 0.9718
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00095: loss did not improve from 0.12708
+Epoch 96/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1313 - sparse_accuracy: 0.9708
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00096: ReduceLROnPlateau reducing learning rate to 1.2207030941624453e-08.
+
+Epoch 00096: loss did not improve from 0.12708
+Epoch 97/300
+13/13 [==============================] - 16s 1s/step - loss: 0.1270 - sparse_accuracy: 0.9717
+test:  f1: 0.82334, precision: 0.81746, recall: 0.82931
+
+Epoch 00097: loss did not improve from 0.12708
+Epoch 00097: early stopping
+
+进程已结束,退出代码0
