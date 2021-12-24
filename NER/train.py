@@ -12,7 +12,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.chdir(os.path.dirname(__file__))
 from keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 
-from path import train_file_path, test_file_path, BASE_MODEL_DIR, BASE_CONFIG_NAME, BASE_CKPT_NAME, event_type, \
+from path import train_file_path_NER, test_file_path_NER, BASE_MODEL_DIR, BASE_CONFIG_NAME, BASE_CKPT_NAME, event_type, \
     weights_path, MODEL_TYPE
 from utils.backend import keras, K
 from utils.models import build_transformer_model
@@ -64,8 +64,8 @@ def load_data(filename):
 
 
 # 标注数据
-train_data = load_data(train_file_path)
-test_data = load_data(test_file_path)
+train_data = load_data(train_file_path_NER)
+test_data = load_data(test_file_path_NER)
 categories = list(sorted(categories))
 
 # 建立分词器

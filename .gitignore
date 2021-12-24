@@ -156,7 +156,6 @@ cython_debug/
 */*.index
 */checkpoint
 */*.meta
-data/*
+data/pulmonary.*
 weights/*.h5
-NER/log/*_*.out
 
