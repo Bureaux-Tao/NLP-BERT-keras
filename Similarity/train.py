@@ -148,6 +148,25 @@ if __name__ == '__main__':
     save_model = ModelCheckpoint(save_file_path, monitor = 'val_loss', verbose = 0, save_best_only = True,
                                  mode = 'min')
     
+    for i, item in enumerate(train_generator):
+        print("\nbatch_token_ids shape:", item[0][0].shape)
+        print("batch_segment_ids shape:", item[0][1].shape)
+        print("batch_labels shape:", item[1].shape)
+        if i == 4:
+            break
+            
+    # batch_token_ids shape: (256, 65)
+    # batch_segment_ids shape: (256, 65)
+    # batch_labels shape: (256, 1)
+    
+    # batch_token_ids shape: (256, 71)
+    # batch_segment_ids shape: (256, 71)
+    # batch_labels shape: (256, 1)
+    
+    # batch_token_ids shape: (256, 69)
+    # batch_segment_ids shape: (256, 69)
+    # batch_labels shape: (256, 1)
+    
     model.fit(
         train_generator.forfit(),
         steps_per_epoch = len(train_generator),

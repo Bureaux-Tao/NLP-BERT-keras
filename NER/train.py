@@ -244,6 +244,17 @@ if __name__ == '__main__':
     early_stopping = EarlyStopping(monitor = 'loss', patience = 10, verbose = 1)  # 提前结束
     save_model = ModelCheckpoint(save_file_path, monitor = 'loss', verbose = 1, save_best_only = True,
                                  mode = 'min')
+
+    for i, item in enumerate(train_generator):
+        print("\nbatch_token_ids shape: shape:", item[0][0].shape)
+        print("batch_segment_ids shape:", item[0][1].shape)
+        print("batch_labels shape:", item[1].shape)
+        if i == 4:
+            break
+
+    # batch_token_ids: (batch_size, maxlen) or (batch_size, n), n <= maxlen
+    # batch_segment_ids: (batch_size, maxlen) or (batch_size, n), n <= maxlen
+    # batch_labels: (batch_size, maxlen) or (batch_size, n), n <= maxlen
     
     model.fit(
         train_generator.forfit(),

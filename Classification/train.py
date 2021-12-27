@@ -145,6 +145,17 @@ if __name__ == '__main__':
     save_model = ModelCheckpoint(save_file_path, monitor = 'val_loss', verbose = 0, save_best_only = True,
                                  mode = 'min')
     
+    for i, item in enumerate(train_generator):
+        print("\nbatch_token_ids shape: ", item[0][0].shape)
+        print("batch_segment_ids shape:", item[0][1].shape)
+        print("batch_labels shape:", item[1].shape)
+        if i == 9:
+            break
+            
+    # batch_token_ids shape: (batch_size, maxlen)
+    # batch_segment_ids shape: (batch_size, maxlen)
+    # batch_labels shape: (batch_size, 1)
+    
     model.fit(
         train_generator.forfit(),
         validation_data = valid_generator.forfit(),

@@ -27,6 +27,9 @@ train_file_path_Similarity = proj_path + "/Similarity/data/train.tsv"
 val_file_path_Similarity = proj_path + "/Similarity/data/dev.tsv"
 test_file_path_Similarity = proj_path + "/Similarity/data/test.tsv"
 
+# Segmentation
+train_file_path_Segmentation = proj_path + "/Segmentation/data/pku_training.utf8"
+
 #################################################################################
 
 # Model Config
