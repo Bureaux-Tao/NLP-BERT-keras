@@ -76,7 +76,7 @@ bert = build_transformer_model(
     model = MODEL_TYPE
 )
 
-output = Lambda(lambda x: x[:, 0], name = 'CLS-token')(bert.model.output)
+output = Lambda(lambda x: x[:, 0], name = 'CLS-token')(bert.model.output) # 取出[CLS]对应的向量用来做分类
 output = Dense(
     units = num_classes,
     activation = 'softmax',

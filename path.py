@@ -1,7 +1,8 @@
 import os
 
 # event_type = "pulmonary"
-event_type = "yidu"
+# event_type = "yidu"
+event_type = "DuIE"
 
 #################################################################################
 
@@ -29,6 +30,11 @@ test_file_path_Similarity = proj_path + "/Similarity/data/test.tsv"
 
 # Segmentation
 train_file_path_Segmentation = proj_path + "/Segmentation/data/pku_training.utf8"
+
+# KnowledgeExtraction
+train_file_path_KE = proj_path + "/KnowledgeExtraction/data/train_data.json"
+val_file_path_KE = proj_path + "/KnowledgeExtraction/data/dev_data.json"
+schemas_KE = proj_path + "/KnowledgeExtraction/data/all_50_schemas"
 
 #################################################################################
 
