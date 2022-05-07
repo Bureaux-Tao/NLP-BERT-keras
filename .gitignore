@@ -159,3 +159,4 @@ cython_debug/
 data/pulmonary.*
 weights/*.h5
 KnowledgeExtraction/data/*
+QA/data/*.json

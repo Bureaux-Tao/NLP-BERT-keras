@@ -4,6 +4,13 @@
     <list>
       <list>
         <remote-mappings server-id="python@bd7d0362-7679-49f3-98cf-fcf02168a38d" />
+        <remote-mappings server-id="python@sftp://bureaux@180.169.131.147:22/home/bureaux/miniconda3/envs/Keras-base/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$" remote-root="/home/bureaux/Projects/keras4bert" />
+            </list>
+          </settings>
+        </remote-mappings>
       </list>
     </list>
   </component>

@@ -150,12 +150,19 @@ class data_generator(DataGenerator):
 
 def extract_subject(inputs):
     """根据subject_ids从output中取出subject的向量表征
+    把预测的subject对应的embedding与bert输出的hidden-states 进行拼接
     """
-    output, subject_ids = inputs
-    start = batch_gather(output, subject_ids[:, :1])
-    end = batch_gather(output, subject_ids[:, 1:])
-    subject = K.concatenate([start, end], 2)
-    return subject[:, 0]
+    output, subject_ids = inputs  # output:(?, ?, 312)    subject_ids:(?, 2)
+    # Embedding - Token 出来的每个字都是312维
+    # batch_gather
+    # seq = [1,2,3,4,5,6]
+    # idxs = [2,3,4]
+    # a = K.tf.batch_gather(seq, idxs)
+    # [3 4 5]
+    start = batch_gather(output, subject_ids[:, :1])  # 取头指针 (?, 1, 312)
+    end = batch_gather(output, subject_ids[:, 1:])  # 取尾指针 (?, 1, 312)
+    subject = K.concatenate([start, end], 2)  # (?, 1, 624)
+    return subject[:, 0]  # (?, 624)
 
 
 # 补充输入
@@ -175,7 +182,7 @@ bert = build_transformer_model(
 output = Dense(
     units = 2, activation = 'sigmoid', kernel_initializer = bert.initializer
 )(bert.model.output)
-subject_preds = Lambda(lambda x: x ** 2)(output)  # ?
+subject_preds = Lambda(lambda x: x ** 2)(output)
 # 我们引入了Bert作为编码器，然后得到了编码序列bert.model.output，然后直接接一个输出维度是2的Dense来预测首尾
 
 subject_model = Model(bert.model.inputs, subject_preds)

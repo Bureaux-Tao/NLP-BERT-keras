@@ -76,7 +76,7 @@ bert = build_transformer_model(
     model = MODEL_TYPE
 )
 
-output = Lambda(lambda x: x[:, 0], name = 'CLS-token')(bert.model.output) # 取出[CLS]对应的向量用来做分类
+output = Lambda(lambda x: x[:, 0], name = 'CLS-token')(bert.model.output)  # 取出[CLS]对应的向量用来做分类
 output = Dense(
     units = num_classes,
     activation = 'softmax',
@@ -151,7 +151,7 @@ if __name__ == '__main__':
         print("batch_labels shape:", item[1].shape)
         if i == 9:
             break
-            
+    
     # batch_token_ids shape: (batch_size, maxlen)
     # batch_segment_ids shape: (batch_size, maxlen)
     # batch_labels shape: (batch_size, 1)
