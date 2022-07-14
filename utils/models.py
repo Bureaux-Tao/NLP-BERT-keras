@@ -2,11 +2,11 @@
 # 主要模型
 
 import numpy as np
-from utils.backend import sequence_masking
+from utils.backend import get_available_gpus
 from utils.layers import *
 from utils.snippets import insert_arguments
 from utils.snippets import delete_arguments
-from utils.snippets import is_string
+from utils.snippets import is_string, string_matching
 from utils.snippets import orthogonally_resize
 from keras.models import Model
 import json
@@ -678,7 +678,9 @@ class BERT(Transformer):
                 arguments={'mode': 'dense'},
                 name='Embedding-Token'
             )
-            x = self.apply(inputs=x, layer=BiasAdd, name='MLM-Bias')
+            x = self.apply(
+                inputs=x, layer=ScaleOffset, scale=False, name='MLM-Bias'
+            )
             mlm_activation = 'softmax' if self.with_mlm is True else self.with_mlm
             x = self.apply(
                 inputs=x,
@@ -1206,6 +1208,212 @@ class RoFormer(NEZHA):
             )
 
         return self.position_bias
+
+
+class RoFormerV2(RoFormer):
+    """RoFormerV2
+    改动：去掉bias，简化Norm，优化初始化等。
+    """
+    def initializer(self, shape, dtype=None, gain=1.0):
+        """使用截断正态分布初始化
+        """
+        if shape[0] > 10000 or shape[0] < 10:
+            hidden_size = shape[1]
+        else:
+            hidden_size = shape[0]
+        stddev = 1.13684723 / hidden_size**0.5 * gain
+        return K.truncated_normal(shape, stddev=stddev)
+
+    def apply_embeddings(self, inputs):
+        """RoFormerV2的embedding是token、segment两者embedding之和
+        """
+        inputs = inputs[:]
+        x = inputs.pop(0)
+        if self.segment_vocab_size > 0:
+            s = inputs.pop(0)
+
+        x = self.apply(
+            inputs=x,
+            layer=Embedding,
+            input_dim=self.vocab_size,
+            output_dim=self.embedding_size,
+            embeddings_initializer=self.initializer,
+            mask_zero=True,
+            name='Embedding-Token'
+        )
+        if self.segment_vocab_size > 0:
+            if self.shared_segment_embeddings:
+                name = 'Embedding-Token'
+            else:
+                name = 'Embedding-Segment'
+            s = self.apply(
+                inputs=s,
+                layer=Embedding,
+                input_dim=self.segment_vocab_size,
+                output_dim=self.embedding_size,
+                embeddings_initializer=self.initializer,
+                name=name
+            )
+            x = self.apply(
+                inputs=[x, s], layer=Add, name='Embedding-Token-Segment'
+            )
+        x = self.apply(
+            inputs=x,
+            layer=Dropout,
+            rate=self.dropout_rate,
+            name='Embedding-Dropout'
+        )
+        x = self.apply(
+            inputs=x,
+            layer=LayerNormalization,
+            zero_mean=False,
+            scale=False,
+            offset=False,
+            name='Embedding-Norm'
+        )
+        if self.embedding_size != self.hidden_size:
+            x = self.apply(
+                inputs=x,
+                layer=Dense,
+                units=self.hidden_size,
+                use_bias=False,
+                kernel_initializer=self.initializer,
+                name='Embedding-Mapping'
+            )
+
+        return x
+
+    def apply_main_layers(self, inputs, index):
+        """RoFormerV2的主体是基于Self-Attention的模块
+        顺序：Att  --> Add --> LN --> FFN --> Add --> LN
+        """
+        x = inputs
+
+        attention_name = 'Transformer-%d-MultiHeadSelfAttention' % index
+        feed_forward_name = 'Transformer-%d-FeedForward' % index
+        attention_mask = self.compute_attention_bias(index)
+        position_bias = self.compute_position_bias(x)
+
+        # Self Attention
+        xi = x
+        x = [x, x, x, position_bias]
+        arguments = {'a_bias': None, 'p_bias': 'rotary'}
+        if attention_mask is not None:
+            arguments['a_bias'] = True
+            x.insert(3, attention_mask)
+        x = self.apply(
+            inputs=x,
+            layer=MultiHeadAttention,
+            arguments=arguments,
+            heads=self.num_attention_heads,
+            head_size=self.attention_head_size,
+            out_dim=self.hidden_size,
+            key_size=self.attention_key_size,
+            use_bias=False,
+            attention_dropout=self.attention_dropout_rate,
+            kernel_initializer=self.initializer,
+            name=attention_name
+        )
+        x = self.apply(
+            inputs=x,
+            layer=Dropout,
+            rate=self.dropout_rate,
+            name='%s-Dropout' % attention_name
+        )
+        x = self.apply(
+            inputs=[xi, x], layer=Add, name='%s-Add' % attention_name
+        )
+        x = self.apply(
+            inputs=x,
+            layer=LayerNormalization,
+            zero_mean=False,
+            scale=False,
+            offset=False,
+            name='%s-Norm' % attention_name
+        )
+
+        # Feed Forward
+        xi = x
+        x = self.apply(
+            inputs=x,
+            layer=FeedForward,
+            units=self.intermediate_size,
+            activation=self.hidden_act,
+            use_bias=False,
+            kernel_initializer=self.initializer,
+            name=feed_forward_name
+        )
+        x = self.apply(
+            inputs=x,
+            layer=Dropout,
+            rate=self.dropout_rate,
+            name='%s-Dropout' % feed_forward_name
+        )
+        x = self.apply(
+            inputs=[xi, x], layer=Add, name='%s-Add' % feed_forward_name
+        )
+        x = self.apply(
+            inputs=x,
+            layer=LayerNormalization,
+            zero_mean=False,
+            scale=False,
+            offset=False,
+            name='%s-Norm' % feed_forward_name
+        )
+
+        return x
+
+    def apply_final_layers(self, inputs):
+        """剩余部分
+        """
+        x = inputs
+
+        if self.with_mlm:
+            # 预测token概率部分
+            if self.embedding_size != self.hidden_size:
+                x = self.apply(
+                    inputs=x,
+                    layer=Dense,
+                    units=self.embedding_size,
+                    use_bias=False,
+                    kernel_initializer=self.initializer,
+                    name='Output-Mapping'
+                )
+            x = self.apply(
+                inputs=x,
+                layer=Dropout,
+                rate=self.dropout_rate,
+                name='Output-MLM-Dropout'
+            )
+            mlm_activation = 'softmax' if self.with_mlm is True else self.with_mlm
+            x = self.apply(
+                inputs=x,
+                layer=Embedding,
+                arguments={'mode': 'dense'},
+                name='Embedding-Token'
+            )
+            x = self.apply(
+                inputs=x,
+                layer=Activation,
+                activation=mlm_activation,
+                name='Output-MLM-Activation'
+            )
+
+        return x
+
+    def variable_mapping(self):
+        """删掉部分权重映射
+        """
+        mapping = super(RoFormerV2, self).variable_mapping()
+
+        for k, v in mapping.items():
+            v = [
+                i for i in v
+                if not string_matching(i, ['beta', 'gamma', 'bias'])
+            ]
+            mapping[k] = v
+
+        return mapping
 
 
 class ELECTRA(BERT):
@@ -1937,7 +2145,8 @@ class T5_Encoder(T5_Base):
         x = self.apply(
             inputs=self.simplify([x, z]),
             layer=LayerNormalization,
-            center=False,
+            zero_mean=False,
+            offset=False,
             epsilon=1e-6,
             conditional=(z is not None),
             hidden_units=self.layer_norm_conds[1],
@@ -1974,7 +2183,8 @@ class T5_Encoder(T5_Base):
         x = self.apply(
             inputs=self.simplify([x, z]),
             layer=LayerNormalization,
-            center=False,
+            zero_mean=False,
+            offset=False,
             epsilon=1e-6,
             conditional=(z is not None),
             hidden_units=self.layer_norm_conds[1],
@@ -2012,7 +2222,8 @@ class T5_Encoder(T5_Base):
         x = self.apply(
             inputs=self.simplify([x, z]),
             layer=LayerNormalization,
-            center=False,
+            zero_mean=False,
+            offset=False,
             epsilon=1e-6,
             conditional=(z is not None),
             hidden_units=self.layer_norm_conds[1],
@@ -2025,12 +2236,6 @@ class T5_Encoder(T5_Base):
             layer=Dropout,
             rate=self.dropout_rate,
             name='Encoder-Output-Dropout'
-        )
-        x = self.apply(
-            inputs=x,
-            layer=Lambda,
-            function=sequence_masking,
-            name='Encoder-Output-Masked'
         )
 
         return x
@@ -2083,9 +2288,6 @@ class T5_Decoder(LM_Mask, T5_Base):
         """
         c, x = inputs
 
-        c = self.apply(
-            inputs=c, layer=Masking, mask_value=0.0, name='Masked-Context'
-        )
         x = self.apply(
             inputs=x,
             layer=Embedding,
@@ -2130,7 +2332,8 @@ class T5_Decoder(LM_Mask, T5_Base):
         x = self.apply(
             inputs=self.simplify([x, z]),
             layer=LayerNormalization,
-            center=False,
+            zero_mean=False,
+            offset=False,
             epsilon=1e-6,
             conditional=(z is not None),
             hidden_units=self.layer_norm_conds[1],
@@ -2170,7 +2373,8 @@ class T5_Decoder(LM_Mask, T5_Base):
         x = self.apply(
             inputs=self.simplify([x, z]),
             layer=LayerNormalization,
-            center=False,
+            zero_mean=False,
+            offset=False,
             epsilon=1e-6,
             conditional=(z is not None),
             hidden_units=self.layer_norm_conds[1],
@@ -2210,7 +2414,8 @@ class T5_Decoder(LM_Mask, T5_Base):
         x = self.apply(
             inputs=self.simplify([x, z]),
             layer=LayerNormalization,
-            center=False,
+            zero_mean=False,
+            offset=False,
             epsilon=1e-6,
             conditional=(z is not None),
             hidden_units=self.layer_norm_conds[1],
@@ -2248,7 +2453,8 @@ class T5_Decoder(LM_Mask, T5_Base):
         x = self.apply(
             inputs=self.simplify([x, z]),
             layer=LayerNormalization,
-            center=False,
+            zero_mean=False,
+            offset=False,
             epsilon=1e-6,
             conditional=(z is not None),
             hidden_units=self.layer_norm_conds[1],
@@ -2264,8 +2470,9 @@ class T5_Decoder(LM_Mask, T5_Base):
         )
         x = self.apply(
             inputs=x,
-            layer=Scale,
+            layer=ScaleOffset,
             scale=self.hidden_size**(-0.5),
+            offset=False,
             name='Decoder-Output-Scale'
         )
 
@@ -2363,10 +2570,11 @@ class T5(T5_Base):
         """
         self._encoder.build(**kwargs)
         self._decoder.build(**kwargs)
+        self._decoder.position_bias = None  # 下面call时将重新初始化
         self.encoder = self._encoder.model
         self.decoder = self._decoder.model
         self.inputs = self.encoder.inputs + self.decoder.inputs[1:]
-        self.outputs = self.decoder(
+        self.outputs = self._decoder.call(
             self.encoder.outputs + self.decoder.inputs[1:]
         )
         self.model = Model(self.inputs, self.outputs)
@@ -2397,6 +2605,36 @@ def extend_with_unified_language_model(BaseModel):
             self.with_mlm = self.with_mlm or True
 
     return UnifiedLanguageModel
+
+
+def data_parallel(model, devices=None, parts=None):
+    """通过数据并行来实现模型并行
+    参数：
+        devices：运行设备，默认为所有可用GPU；
+        parts：batch_size分配，默认为均匀划分；
+    """
+    if devices is None:
+        devices = get_available_gpus()
+    elif isinstance(devices, int):
+        devices = ['/device:GPU:%d' % i for i in range(devices)]
+
+    if parts is None:
+        parts = len(devices)
+    else:
+        assert len(devices) == len(parts)
+
+    splited_inputs = BatchSplit(parts)(model.inputs)
+    splited_outputs = [[] for _ in model.outputs]
+    for i, device in enumerate(devices):
+        with tf.device(device):
+            outputs = model(splited_inputs[i::len(devices)])
+            outputs = outputs if isinstance(outputs, list) else [outputs]
+            for j, output in enumerate(outputs):
+                splited_outputs[j].append(output)
+
+    outputs = [BatchConcat()(outputs) for outputs in splited_outputs]
+
+    return Model(model.inputs, outputs)
 
 
 def build_transformer_model(
@@ -2431,6 +2669,7 @@ def build_transformer_model(
         'roberta': BERT,
         'nezha': NEZHA,
         'roformer': RoFormer,
+        'roformer_v2': RoFormerV2,
         'electra': ELECTRA,
         'gpt': GPT,
         'gpt2': GPT2,

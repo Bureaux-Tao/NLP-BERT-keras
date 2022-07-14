@@ -6,6 +6,7 @@ import os, sys
 from distutils.util import strtobool
 import numpy as np
 import tensorflow as tf
+from tensorflow.python.client import device_lib
 from tensorflow.python.util import nest, tf_inspect
 from tensorflow.python.eager import tape
 from tensorflow.python.ops.custom_gradient import _graph_mode_decorator
@@ -14,15 +15,21 @@ from tensorflow.python.ops.custom_gradient import _graph_mode_decorator
 is_tf_keras = strtobool(os.environ.get('TF_KERAS', '0'))
 
 if is_tf_keras:
-    import tensorflow.keras as keras
-    import tensorflow.keras.backend as K
-    sys.modules['keras'] = keras
-else:
-    import keras
-    import keras.backend as K
+    sys.modules['keras'] = tf.keras
+
+import keras
+import keras.backend as K
 
 # 判断是否启用重计算（通过时间换空间）
 do_recompute = strtobool(os.environ.get('RECOMPUTE', '0'))
+
+
+def get_available_gpus():
+    """获取可用的GPU列表
+    """
+    devices = device_lib.list_local_devices()
+    devices = [x.name for x in devices if x.device_type == 'GPU']
+    return devices
 
 
 def gelu_erf(x):
@@ -126,6 +133,20 @@ def search_layer(inputs, name, exclude_from=None):
                     return layer
 
 
+def align(tensor, axes, ndim=None):
+    """重新对齐tensor（批量版expand_dims）
+    axes：原来的第i维对齐新tensor的第axes[i]维；
+    ndim：新tensor的维度。
+    """
+    assert len(axes) == K.ndim(tensor)
+    assert ndim or min(axes) >= 0
+    ndim = ndim or max(axes) + 1
+    indices = [None] * ndim
+    for i in axes:
+        indices[i] = slice(None)
+    return tensor[indices]
+
+
 def sequence_masking(x, mask, value=0, axis=None):
     """为序列条件mask的函数
     mask: 形如(batch_size, seq_len)的0-1矩阵；
@@ -149,11 +170,8 @@ def sequence_masking(x, mask, value=0, axis=None):
         elif axis < 0:
             axis = K.ndim(x) + axis
         assert axis > 0, 'axis must be greater than 0'
-        for _ in range(axis - 1):
-            mask = K.expand_dims(mask, 1)
+        mask = align(mask, [0, axis], K.ndim(x))
         value = K.cast(value, K.dtype(x))
-        for _ in range(K.ndim(x) - K.ndim(mask)):
-            mask = K.expand_dims(mask, K.ndim(mask))
         x = x * mask + value * (1 - mask)
         if x_dtype == 'bool':
             x = K.cast(x, 'bool')
@@ -252,14 +270,43 @@ def multilabel_categorical_crossentropy(y_true, y_pred):
         4. 详情请看：https://kexue.fm/archives/7359 。
     """
     y_pred = (1 - 2 * y_true) * y_pred
-    y_pred_neg = y_pred - y_true * K.infinity()
-    y_pred_pos = y_pred - (1 - y_true) * K.infinity()
+    y_neg = y_pred - y_true * K.infinity()
+    y_pos = y_pred - (1 - y_true) * K.infinity()
     zeros = K.zeros_like(y_pred[..., :1])
-    y_pred_neg = K.concatenate([y_pred_neg, zeros], axis=-1)
-    y_pred_pos = K.concatenate([y_pred_pos, zeros], axis=-1)
-    neg_loss = tf.reduce_logsumexp(y_pred_neg, axis=-1)
-    pos_loss = tf.reduce_logsumexp(y_pred_pos, axis=-1)
+    y_neg = K.concatenate([y_neg, zeros], axis=-1)
+    y_pos = K.concatenate([y_pos, zeros], axis=-1)
+    neg_loss = K.logsumexp(y_neg, axis=-1)
+    pos_loss = K.logsumexp(y_pos, axis=-1)
     return neg_loss + pos_loss
+
+
+def sparse_multilabel_categorical_crossentropy(y_true, y_pred, mask_zero=False):
+    """稀疏版多标签分类的交叉熵
+    说明：
+        1. y_true.shape=[..., num_positive]，
+           y_pred.shape=[..., num_classes]；
+        2. 请保证y_pred的值域是全体实数，换言之一般情况下
+           y_pred不用加激活函数，尤其是不能加sigmoid或者
+           softmax；
+        3. 预测阶段则输出y_pred大于0的类；
+        4. 详情请看：https://kexue.fm/archives/7359 。
+    """
+    zeros = K.zeros_like(y_pred[..., :1])
+    y_pred = K.concatenate([y_pred, zeros], axis=-1)
+    if mask_zero:
+        infs = zeros + K.infinity()
+        y_pred = K.concatenate([infs, y_pred[..., 1:]], axis=-1)
+    y_pos_2 = batch_gather(y_pred, y_true)
+    y_pos_1 = K.concatenate([y_pos_2, zeros], axis=-1)
+    if mask_zero:
+        y_pred = K.concatenate([-infs, y_pred[..., 1:]], axis=-1)
+        y_pos_2 = batch_gather(y_pred, y_true)
+    pos_loss = K.logsumexp(-y_pos_1, axis=-1)
+    all_loss = K.logsumexp(y_pred, axis=-1)
+    aux_loss = K.logsumexp(y_pos_2, axis=-1) - all_loss
+    aux_loss = K.clip(1 - K.exp(aux_loss), K.epsilon(), 1)
+    neg_loss = all_loss + K.log(aux_loss)
+    return pos_loss + neg_loss
 
 
 def symbolic(f):
@@ -348,10 +395,13 @@ def recompute_grad(call):
 # 给旧版keras新增symbolic（装饰器），以兼容optimizers.py
 K.symbolic = getattr(K, 'symbolic', None) or symbolic
 
+# 给tf.keras补充上logsumexp
+K.logsumexp = getattr(K, 'logsumexp', None) or tf.math.reduce_logsumexp
+
 # 添加到 keras.backend 上，使其可以像 K.epsilon() 那样操作
 K.infinity = infinity
 K.set_infinity = set_infinity
-sys.modules['keras.backend'] = K
+sys.modules['tensorflow.keras.backend'] = K
 
 custom_objects = {
     'gelu_erf': gelu_erf,
@@ -362,6 +412,7 @@ custom_objects = {
     'leaky_relu': leaky_relu,
     'Sinusoidal': Sinusoidal,
     'multilabel_categorical_crossentropy': multilabel_categorical_crossentropy,
+    'initializer': keras.initializers.glorot_uniform,  # 就当是默认初始化方案吧
 }
 
 keras.utils.get_custom_objects().update(custom_objects)
