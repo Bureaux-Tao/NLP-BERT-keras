@@ -48,6 +48,12 @@ train_file_path_abstract = proj_path + "/Abstract/data/csl_title_train.jsonl"
 test_file_path_abstract = proj_path + "/Abstract/data/csl_title_dev.jsonl"
 val_file_path_abstract = proj_path + "/Abstract/data/csl_title_dev.jsonl"
 
+# Muiti-Dialog
+train_file_path_multidialog = proj_path + "/MultiDialog/data/train.jsonl"
+test_file_path_multidialog = proj_path + "/MultiDialog/data/valid.jsonl"
+val_file_path_multidialog = proj_path + "/MultiDialog/data/valid.jsonl"
+
+
 #################################################################################
 
 # Model Config
@@ -71,6 +77,10 @@ MODEL_TYPE = 'roformer_v2'
 # BASE_CONFIG_NAME = proj_path + "/albert_base_google_zh/albert_config.json"
 # BASE_CKPT_NAME = proj_path + "/albert_base_google_zh/albert_model.ckpt"
 
-BASE_MODEL_DIR = proj_path + "/chinese_roformer-v2-char_L-12_H-768_A-12"
-BASE_CONFIG_NAME = proj_path + "/chinese_roformer-v2-char_L-12_H-768_A-12/bert_config.json"
-BASE_CKPT_NAME = proj_path + "/chinese_roformer-v2-char_L-12_H-768_A-12/bert_model.ckpt"
+# BASE_MODEL_DIR = proj_path + "/chinese_roformer-v2-char_L-12_H-768_A-12"
+# BASE_CONFIG_NAME = proj_path + "/chinese_roformer-v2-char_L-12_H-768_A-12/bert_config.json"
+# BASE_CKPT_NAME = proj_path + "/chinese_roformer-v2-char_L-12_H-768_A-12/bert_model.ckpt"
+
+BASE_MODEL_DIR = proj_path + "/chinese_wonezha_L-12_H-768_A-12"
+BASE_CONFIG_NAME = proj_path + "/chinese_wonezha_L-12_H-768_A-12/bert_config.json"
+BASE_CKPT_NAME = proj_path + "/chinese_wonezha_L-12_H-768_A-12/bert_model.ckpt"

@@ -160,3 +160,6 @@ data/pulmonary.*
 weights/*.h5
 KnowledgeExtraction/data/*
 QA/data/*.json
+MultiDialog/data/LCCC-base_*.json
+MultiDialog/data/*.jsonl
+/MultiDialog/data

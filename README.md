@@ -309,7 +309,7 @@ Epoch 99/100
 
 ### Predict
 
-运行QA/predict.py
+运行`QA/predict.py`
 
 ```python
 qag.generate("1915年12月13日，时任中华民国大总统的袁世凯宣布废除共和政体，实行帝制，改国号为中华帝国，年号洪宪，自任皇帝；1916年3月22日，宣布废除帝制，重归共和，前后总共历时83天。")
@@ -368,4 +368,42 @@ just_show(u'根据动态组播代理的移动组播算法原理,提出一种移�
 
 ```
 生成标题: 移动组播代理的移态组播协议
+```
+
+## Multi-Dialog
+
+不含知识的多轮对话聊天机器人。模型：[WoNEZHA(word-base)](https://github.com/ZhuiyiTechnology/WoBERT)
+
+### Dataset
+LCCC数据集（Large-scale Cleaned Chinese Conversation），需处理成jsonl，一行一个list，里面装一轮对话
+
+```
+["我 怎么 觉得 在 蹭 热度 ？", "人家 好多年 前书里 就 有 写 …"]
+["你 眉毛 纹过 吗", "纹过 但是 掉 差不多 了 是 画 的"]
+["我 的 天 ， 腰好 细 ， 我 无地自容 了", "哈哈哈哈 ， 你 也 可以 拥有 的"]
+["卷毛 ！", "对 的"]
+["憋不住 了", "哈哈 ， 憋不住 显摆 灯 了"]
+```
+
+### Train
+
+运行`MultiDialog/train.py`
+
+### Evaluate
+
+CrossEntropy，从词表中做分类，预测下一个字
+
+```
+Epoch 42/9999
+1000/1000 [==============================] - 499s 499ms/step - loss: 3.5192 - val_loss: 3.3999
+dialog: ['我觉得巧克力好苦', '那是你没吃到甜的', '我不喜欢吃甜的']
+answer: 那你吃甜的好吗？
+```
+
+### Predict
+
+由于使用的模型是GPT-based模型，所以没有maxlen512的限制，maxlen为所有对话总token数+`sep`+`cls`
+
+```python
+chatbot.response(["xxx","xxx","xxx",...,"xxx"]).replace(" ", "")
 ```
